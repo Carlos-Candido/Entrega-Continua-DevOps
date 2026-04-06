@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.fatecads.fatecads.entity.Aluno;
 import br.com.fatecads.fatecads.service.AlunoService;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 @RequestMapping("/alunos")
@@ -25,9 +27,17 @@ public class AlunoController {
         return "redirect:/alunos/listar";
     }
 
-    @PostMapping("/listar")
+    @GetMapping("/listar")
     public String listar(Model model){
-        model.addAttribute("aluno", alunoService.findAll());
-        return "aluno/listaAlunos";
+        model.addAttribute("alunos", alunoService.findAll());
+        return "aluno/listarAlunos";
     }
+
+    //Método para criar um novo aluno e abrir o formulário
+    @GetMapping("/criar")
+    public String criarForm(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        return "aluno/formularioAluno";
+    }
+    
 }
