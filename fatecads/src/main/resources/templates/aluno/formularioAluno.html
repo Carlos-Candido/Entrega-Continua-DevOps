@@ -6,7 +6,7 @@
     <title>Cadastro de Alunos</title>
 </head>
 <body>
-    <h1 style="text-align: center;">cadastrro de Alunos</h1>
+    <h1 style="text-align: center;">Cadastro de Alunos</h1>
     <form th:action="@{/alunos/salvar}" method="post" th:object="${aluno}">>
         <input type="hidden" th:field="*{idAluno}">
         <label>Nome: </label>

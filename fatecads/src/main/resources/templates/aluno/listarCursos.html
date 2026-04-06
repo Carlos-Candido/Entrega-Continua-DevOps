@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cursos</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Lista de Cursos</h1>
+    <h3 style="text-align: center;">
+        <a href="/curso/criar">Criar novo curso</a>
+    </h3>
+    <table align="center" border="1">
+        <tr>
+            <th>Nome: </th>
+            <th>Periodo: </th>
+            <th>Carga Horária: </th>
+            <th colspan="2">Ações</th>
+        </tr>
+        <tr th:each="curso : ${curso}">
+            <td th:text="${curso.nomeCurso}">*</td>
+            <td th:text="${curso.periodo}">*</td>
+            <td th:text="${curso.cargaHoraria}">*</td>
+            <td>
+                <a th:href="@{/curso/editar/{id}(id=${curso.idCurso})}">Editar</a>
+                <a th:href="@{/curso/excluir/{id}(id=${curso.idCurso})}">Excluir</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
