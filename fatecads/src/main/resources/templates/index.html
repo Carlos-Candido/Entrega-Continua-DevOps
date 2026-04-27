@@ -3,12 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema FatecADS</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <title>Sistema Fatec ADS</title>
 </head>
 <body>
-    <h1 style="text-align: center;">Bem vindo ao Sistema FatecADS</h1>
-    <h3 style="text-align: center;"><a href="/alunos/listar">Gerenciar alunos</a></h3>
-    <h3 style="text-align: center;"><a href="/curso/listar">Gerenciar cursos</a></h3>
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+            <nav class="nav" aria-label="Navegacao principal">
+                <a href="/alunos/listar">Alunos</a>
+                <a href="/curso/listar">Cursos</a>
+                <a href="/professor/listar">Professores</a>
+                <a href="/disciplina/listar">Disciplinas</a>
+            </nav>
+        </header>
 
+        <section class="page-header">
+            <div>
+                <h1 class="page-title">Painel academico</h1>
+                <p class="page-subtitle">Gerencie cadastros de alunos, cursos, professores e disciplinas em uma unica area.</p>
+            </div>
+        </section>
+
+        <section class="grid-menu" aria-label="Modulos do sistema">
+            <a class="menu-card" href="/alunos/listar">
+                <strong>Alunos</strong>
+                <span>Cadastrar, editar, listar e excluir alunos.</span>
+            </a>
+            <a class="menu-card" href="/curso/listar">
+                <strong>Cursos</strong>
+                <span>Manter cursos, periodos e cargas horarias.</span>
+            </a>
+            <a class="menu-card" href="/professor/listar">
+                <strong>Professores</strong>
+                <span>Gerenciar dados dos professores.</span>
+            </a>
+            <a class="menu-card" href="/disciplina/listar">
+                <strong>Disciplinas</strong>
+                <span>Organizar disciplinas, siglas e cargas horarias.</span>
+            </a>
+        </section>
+    </main>
 </body>
 </html>

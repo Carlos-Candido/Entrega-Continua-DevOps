@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <title>Lista de Alunos</title>
+    <title>Lista de Professores</title>
 </head>
 <body>
     <main class="app-shell">
@@ -23,10 +23,10 @@
 
         <section class="page-header">
             <div>
-                <h1 class="page-title">Alunos</h1>
-                <p class="page-subtitle">Consulte e mantenha os alunos cadastrados.</p>
+                <h1 class="page-title">Professores</h1>
+                <p class="page-subtitle">Consulte e mantenha os professores cadastrados.</p>
             </div>
-            <a class="button button-primary" href="/alunos/criar">Novo aluno</a>
+            <a class="button button-primary" href="/professor/criar">Novo professor</a>
         </section>
 
         <section class="panel">
@@ -35,33 +35,29 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Email</th>
                             <th>Telefone</th>
-                            <th>CPF</th>
-                            <th>Endereco</th>
-                            <th>RA</th>
+                            <th>Graduacao</th>
+                            <th>RM</th>
                             <th>Acoes</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="aluno : ${alunos}">
-                            <td th:text="${aluno.nomeAluno}">*</td>
-                            <td th:text="${aluno.emailAluno}">*</td>
-                            <td th:text="${aluno.telefoneAluno}">*</td>
-                            <td th:text="${aluno.cpfAluno}">*</td>
-                            <td th:text="${aluno.enderecoAluno}">*</td>
-                            <td th:text="${aluno.raAluno}">*</td>
+                        <tr th:each="professor : ${professores}">
+                            <td th:text="${professor.nomeProfessor}">*</td>
+                            <td th:text="${professor.telefoneProfessor}">*</td>
+                            <td th:text="${professor.graduacaoProfessor}">*</td>
+                            <td th:text="${professor.rmProfessor}">*</td>
                             <td>
                                 <div class="actions">
-                                    <a class="button" th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}">Editar</a>
-                                    <a class="button button-danger" th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}">Excluir</a>
+                                    <a class="button" th:href="@{/professor/editar/{id}(id=${professor.idProfessor})}">Editar</a>
+                                    <a class="button button-danger" th:href="@{/professor/excluir/{id}(id=${professor.idProfessor})}">Excluir</a>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="empty-state" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno cadastrado.</div>
+            <div class="empty-state" th:if="${#lists.isEmpty(professores)}">Nenhum professor cadastrado.</div>
         </section>
     </main>
 </body>

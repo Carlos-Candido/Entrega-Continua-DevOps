@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <title>Lista de Alunos</title>
+    <title>Lista de Disciplinas</title>
 </head>
 <body>
     <main class="app-shell">
@@ -23,10 +23,10 @@
 
         <section class="page-header">
             <div>
-                <h1 class="page-title">Alunos</h1>
-                <p class="page-subtitle">Consulte e mantenha os alunos cadastrados.</p>
+                <h1 class="page-title">Disciplinas</h1>
+                <p class="page-subtitle">Consulte e mantenha as disciplinas cadastradas.</p>
             </div>
-            <a class="button button-primary" href="/alunos/criar">Novo aluno</a>
+            <a class="button button-primary" href="/disciplina/criar">Nova disciplina</a>
         </section>
 
         <section class="panel">
@@ -35,33 +35,27 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>CPF</th>
-                            <th>Endereco</th>
-                            <th>RA</th>
+                            <th>Sigla</th>
+                            <th>Carga horaria</th>
                             <th>Acoes</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="aluno : ${alunos}">
-                            <td th:text="${aluno.nomeAluno}">*</td>
-                            <td th:text="${aluno.emailAluno}">*</td>
-                            <td th:text="${aluno.telefoneAluno}">*</td>
-                            <td th:text="${aluno.cpfAluno}">*</td>
-                            <td th:text="${aluno.enderecoAluno}">*</td>
-                            <td th:text="${aluno.raAluno}">*</td>
+                        <tr th:each="disciplina : ${disciplinas}">
+                            <td th:text="${disciplina.nomeDisciplina}">*</td>
+                            <td th:text="${disciplina.siglaDisciplina}">*</td>
+                            <td th:text="${disciplina.cargaHorariaDisciplina}">*</td>
                             <td>
                                 <div class="actions">
-                                    <a class="button" th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}">Editar</a>
-                                    <a class="button button-danger" th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}">Excluir</a>
+                                    <a class="button" th:href="@{/disciplina/editar/{id}(id=${disciplina.idDisciplina})}">Editar</a>
+                                    <a class="button button-danger" th:href="@{/disciplina/excluir/{id}(id=${disciplina.idDisciplina})}">Excluir</a>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="empty-state" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno cadastrado.</div>
+            <div class="empty-state" th:if="${#lists.isEmpty(disciplinas)}">Nenhuma disciplina cadastrada.</div>
         </section>
     </main>
 </body>

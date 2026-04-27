@@ -3,29 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css">
     <title>Lista de Cursos</title>
 </head>
 <body>
-    <h1 style="text-align: center;">Lista de Cursos</h1>
-    <h3 style="text-align: center;">
-        <a href="/curso/criar">Criar novo curso</a>
-    </h3>
-    <table align="center" border="1">
-        <tr>
-            <th>Nome: </th>
-            <th>Período: </th>
-            <th>Carga Horária: </th>
-            <th colspan="2">Ações</th>
-        </tr>
-        <tr th:each="curso : ${cursos}">
-            <td th:text="${curso.nomeCurso}">*</td>
-            <td th:text="${curso.periodo}">*</td>
-            <td th:text="${curso.cargaHoraria}">*</td>
-            <td>
-                <a th:href="@{/curso/editar/{id}(id=${curso.idCurso})}">Editar</a>
-                <a th:href="@{/curso/excluir/{id}(id=${curso.idCurso})}">Excluir</a>
-            </td>
-        </tr>
-    </table>
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+            <nav class="nav" aria-label="Navegacao principal">
+                <a href="/alunos/listar">Alunos</a>
+                <a href="/curso/listar">Cursos</a>
+                <a href="/professor/listar">Professores</a>
+                <a href="/disciplina/listar">Disciplinas</a>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <div>
+                <h1 class="page-title">Cursos</h1>
+                <p class="page-subtitle">Consulte e mantenha os cursos cadastrados.</p>
+            </div>
+            <a class="button button-primary" href="/curso/criar">Novo curso</a>
+        </section>
+
+        <section class="panel">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Periodo</th>
+                            <th>Carga horaria</th>
+                            <th>Acoes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="curso : ${cursos}">
+                            <td th:text="${curso.nomeCurso}">*</td>
+                            <td th:text="${curso.periodo}">*</td>
+                            <td th:text="${curso.cargaHoraria}">*</td>
+                            <td>
+                                <div class="actions">
+                                    <a class="button" th:href="@{/curso/editar/{id}(id=${curso.idCurso})}">Editar</a>
+                                    <a class="button button-danger" th:href="@{/curso/excluir/{id}(id=${curso.idCurso})}">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" th:if="${#lists.isEmpty(cursos)}">Nenhum curso cadastrado.</div>
+        </section>
+    </main>
 </body>
 </html>

@@ -3,26 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css">
     <title>Cadastro de Alunos</title>
 </head>
 <body>
-    <h1 style="text-align: center;">Cadastro de Alunos</h1>
-    <form th:action="@{/alunos/salvar}" method="post" th:object="${aluno}">>
-        <input type="hidden" th:field="*{idAluno}">
-        <label>Nome: </label>
-        <input type="text" th:field="*{nomeAluno}">
-        <label>Email: </label>
-        <input type="text" th:field="*{emailAluno}">
-        <label>Telefone: </label>
-        <input type="text" th:field="*{telefoneAluno}">
-        <label>CPF: </label>
-        <input type="text" th:field="*{cpfAluno}">
-        <label>Endereço: </label>
-        <input type="text" th:field="*{enderecoAluno}">
-        <label>RA: </label>
-        <input type="text" th:field="*{raAluno}">
-        <br/>
-        <input type="submit" value="Salvar">
-    </form>
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+            <nav class="nav" aria-label="Navegacao principal">
+                <a href="/alunos/listar">Alunos</a>
+                <a href="/curso/listar">Cursos</a>
+                <a href="/professor/listar">Professores</a>
+                <a href="/disciplina/listar">Disciplinas</a>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <div>
+                <h1 class="page-title">Cadastro de aluno</h1>
+                <p class="page-subtitle">Preencha os dados do aluno para salvar o cadastro.</p>
+            </div>
+        </section>
+
+        <form class="panel form-panel" th:action="@{/alunos/salvar}" method="post" th:object="${aluno}">
+            <input type="hidden" th:field="*{idAluno}">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="nomeAluno">Nome</label>
+                    <input id="nomeAluno" type="text" th:field="*{nomeAluno}" required>
+                </div>
+                <div class="field">
+                    <label for="emailAluno">Email</label>
+                    <input id="emailAluno" type="email" th:field="*{emailAluno}">
+                </div>
+                <div class="field">
+                    <label for="telefoneAluno">Telefone</label>
+                    <input id="telefoneAluno" type="text" th:field="*{telefoneAluno}" required>
+                </div>
+                <div class="field">
+                    <label for="cpfAluno">CPF</label>
+                    <input id="cpfAluno" type="text" th:field="*{cpfAluno}" required>
+                </div>
+                <div class="field field-full">
+                    <label for="enderecoAluno">Endereco</label>
+                    <input id="enderecoAluno" type="text" th:field="*{enderecoAluno}" required>
+                </div>
+                <div class="field">
+                    <label for="raAluno">RA</label>
+                    <input id="raAluno" type="text" th:field="*{raAluno}" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="button button-primary" type="submit">Salvar</button>
+                <a class="button" href="/alunos/listar">Voltar</a>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

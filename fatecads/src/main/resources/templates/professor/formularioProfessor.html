@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <title>Cadastro de Curso</title>
+    <title>Cadastro de Professores</title>
 </head>
 <body>
     <main class="app-shell">
@@ -23,30 +23,34 @@
 
         <section class="page-header">
             <div>
-                <h1 class="page-title">Cadastro de curso</h1>
-                <p class="page-subtitle">Informe o nome, periodo e carga horaria do curso.</p>
+                <h1 class="page-title">Cadastro de professor</h1>
+                <p class="page-subtitle">Preencha os dados profissionais do professor.</p>
             </div>
         </section>
 
-        <form class="panel form-panel" th:action="@{/curso/salvar}" th:object="${curso}" method="post">
-            <input type="hidden" th:field="*{idCurso}">
+        <form class="panel form-panel" th:action="@{/professor/salvar}" method="post" th:object="${professor}">
+            <input type="hidden" th:field="*{idProfessor}">
             <div class="form-grid">
                 <div class="field">
-                    <label for="nomeCurso">Nome</label>
-                    <input type="text" id="nomeCurso" th:field="*{nomeCurso}" required>
+                    <label for="nomeProfessor">Nome</label>
+                    <input id="nomeProfessor" type="text" th:field="*{nomeProfessor}" required>
                 </div>
                 <div class="field">
-                    <label for="periodo">Periodo</label>
-                    <input type="text" id="periodo" th:field="*{periodo}" required>
+                    <label for="telefoneProfessor">Telefone</label>
+                    <input id="telefoneProfessor" type="text" th:field="*{telefoneProfessor}" required>
                 </div>
                 <div class="field">
-                    <label for="cargaHoraria">Carga horaria</label>
-                    <input type="number" id="cargaHoraria" th:field="*{cargaHoraria}" min="1" required>
+                    <label for="graduacaoProfessor">Graduacao</label>
+                    <input id="graduacaoProfessor" type="text" th:field="*{graduacaoProfessor}" required>
+                </div>
+                <div class="field">
+                    <label for="rmProfessor">RM</label>
+                    <input id="rmProfessor" type="text" th:field="*{rmProfessor}" required>
                 </div>
             </div>
             <div class="form-actions">
                 <button class="button button-primary" type="submit">Salvar</button>
-                <a class="button" href="/curso/listar">Voltar</a>
+                <a class="button" href="/professor/listar">Voltar</a>
             </div>
         </form>
     </main>
