@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css?v=claude-20260511">
     <title>Cadastro de Alunos</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
                 <span>Sistema Fatec ADS</span>
             </a>
             <nav class="nav" aria-label="Navegacao principal">
-                <a href="/alunos/listar">Alunos</a>
+                <a href="/alunos/listar" aria-current="page">Alunos</a>
                 <a href="/curso/listar">Cursos</a>
                 <a href="/professor/listar">Professores</a>
                 <a href="/disciplina/listar">Disciplinas</a>
@@ -54,6 +54,16 @@
                 <div class="field">
                     <label for="raAluno">RA</label>
                     <input id="raAluno" type="text" th:field="*{raAluno}" required>
+                </div>
+                <div class="field">
+                    <label for="curso">Curso</label>
+                    <select id="curso" th:field="*{curso}" required>
+                        <option value="">Selecione um curso</option>
+                        <option th:each="curso : ${cursos}"
+                                th:value="${curso.idCurso}"
+                                th:text="${curso.nomeCurso}">
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-actions">

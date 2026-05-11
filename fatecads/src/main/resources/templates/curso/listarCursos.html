@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css?v=claude-20260511">
     <title>Lista de Cursos</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
             </a>
             <nav class="nav" aria-label="Navegacao principal">
                 <a href="/alunos/listar">Alunos</a>
-                <a href="/curso/listar">Cursos</a>
+                <a href="/curso/listar" aria-current="page">Cursos</a>
                 <a href="/professor/listar">Professores</a>
                 <a href="/disciplina/listar">Disciplinas</a>
             </nav>
@@ -37,6 +37,7 @@
                             <th>Nome</th>
                             <th>Periodo</th>
                             <th>Carga horaria</th>
+                            <th>Disciplina</th>
                             <th>Acoes</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                             <td th:text="${curso.nomeCurso}">*</td>
                             <td th:text="${curso.periodo}">*</td>
                             <td th:text="${curso.cargaHoraria}">*</td>
+                            <td th:text="${curso.disciplina != null ? curso.disciplina.nomeDisciplina : '-'}">*</td>
                             <td>
                                 <div class="actions">
                                     <a class="button" th:href="@{/curso/editar/{id}(id=${curso.idCurso})}">Editar</a>

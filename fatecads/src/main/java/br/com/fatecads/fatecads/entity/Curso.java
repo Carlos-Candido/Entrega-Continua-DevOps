@@ -9,6 +9,8 @@ import lombok.Setter;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Setter
@@ -28,4 +30,8 @@ public class Curso {
 
     @Column(nullable = false)
     private Integer cargaHoraria;
+
+    @ManyToOne
+    @JoinColumn(name = "idDisciplina_fk")
+    private Disciplina disciplina;
 }

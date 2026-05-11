@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.fatecads.fatecads.entity.Curso;
 import br.com.fatecads.fatecads.service.CursoService;
+import br.com.fatecads.fatecads.service.DisciplinaService;
 
 @Controller
 @RequestMapping("/curso")
@@ -19,6 +20,9 @@ public class CursoController {
  //Injeção de dependência da service de alunos
     @Autowired
     private CursoService cursoService;
+
+    @Autowired
+    private DisciplinaService disciplinaService;
 
     //Método para salvar um curso
     @PostMapping("/salvar")
@@ -37,6 +41,7 @@ public class CursoController {
     @GetMapping("/criar")
     public String criarForm(Model model) {
         model.addAttribute("curso", new Curso());
+        model.addAttribute("disciplinas", disciplinaService.findAll());
         return "curso/formularioCurso";
     }
 
@@ -52,6 +57,7 @@ public class CursoController {
     public String editarForm(@PathVariable Integer id, Model model) {
         Curso curso = cursoService.findById(id);
         model.addAttribute("curso", curso);
+        model.addAttribute("disciplinas", disciplinaService.findAll());
         return "curso/formularioCurso";
     }
 }

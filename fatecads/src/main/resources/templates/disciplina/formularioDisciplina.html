@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css?v=claude-20260511">
     <title>Cadastro de Disciplinas</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <a href="/alunos/listar">Alunos</a>
                 <a href="/curso/listar">Cursos</a>
                 <a href="/professor/listar">Professores</a>
-                <a href="/disciplina/listar">Disciplinas</a>
+                <a href="/disciplina/listar" aria-current="page">Disciplinas</a>
             </nav>
         </header>
 
@@ -42,6 +42,16 @@
                 <div class="field">
                     <label for="cargaHorariaDisciplina">Carga horaria</label>
                     <input id="cargaHorariaDisciplina" type="number" th:field="*{cargaHorariaDisciplina}" min="1" required>
+                </div>
+                <div class="field">
+                    <label for="professor">Professor</label>
+                    <select id="professor" th:field="*{professor}" required>
+                        <option value="">Selecione um professor</option>
+                        <option th:each="professor : ${professores}"
+                                th:value="${professor.idProfessor}"
+                                th:text="${professor.nomeProfessor}">
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-actions">

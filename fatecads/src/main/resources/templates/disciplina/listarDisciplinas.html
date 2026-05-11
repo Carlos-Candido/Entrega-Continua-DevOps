@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css?v=claude-20260511">
     <title>Lista de Disciplinas</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <a href="/alunos/listar">Alunos</a>
                 <a href="/curso/listar">Cursos</a>
                 <a href="/professor/listar">Professores</a>
-                <a href="/disciplina/listar">Disciplinas</a>
+                <a href="/disciplina/listar" aria-current="page">Disciplinas</a>
             </nav>
         </header>
 
@@ -37,6 +37,7 @@
                             <th>Nome</th>
                             <th>Sigla</th>
                             <th>Carga horaria</th>
+                            <th>Professor</th>
                             <th>Acoes</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                             <td th:text="${disciplina.nomeDisciplina}">*</td>
                             <td th:text="${disciplina.siglaDisciplina}">*</td>
                             <td th:text="${disciplina.cargaHorariaDisciplina}">*</td>
+                            <td th:text="${disciplina.professor != null ? disciplina.professor.nomeProfessor : '-'}">*</td>
                             <td>
                                 <div class="actions">
                                     <a class="button" th:href="@{/disciplina/editar/{id}(id=${disciplina.idDisciplina})}">Editar</a>
