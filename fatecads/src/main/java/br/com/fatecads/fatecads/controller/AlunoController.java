@@ -48,12 +48,13 @@ public class AlunoController {
         return "aluno/formularioAluno";
     }
 
-    //Método para excluir uma aluno por ID
+    
+    /*//Método para excluir uma aluno por ID
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Integer id) {
         alunoService.deleteById(id);
         return "redirect:/alunos/listar";
-    }
+    }*/
     
     //Método para editar um aluno pelo ID
     @GetMapping("/editar/{id}")

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
+    <title>Login</title>
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="panel auth-card" aria-labelledby="login-title">
+            <a class="brand" href="/fatecads">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+
+            <p class="eyebrow">Acesso seguro</p>
+            <h1 id="login-title" class="auth-title">Entrar no sistema</h1>
+            <p class="auth-subtitle">Use seu login cadastrado para acessar o painel academico.</p>
+
+            <form class="auth-form" th:action="@{/login}" method="post">
+                <div class="field">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" autocomplete="username" required>
+                </div>
+
+                <div class="field">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                </div>
+
+                <p class="status-alert status-alert-error" th:if="${param.error}">Credenciais invalidas.</p>
+                <p class="status-alert status-alert-success" th:if="${param.logout}">Voce saiu do sistema.</p>
+
+                <div class="auth-actions">
+                    <button class="button button-primary" type="submit">Entrar</button>
+                    <a class="button" href="/fatecads">Voltar para a pagina inicial</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

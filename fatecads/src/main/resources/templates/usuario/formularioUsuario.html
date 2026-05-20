@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
+    <title>Cadastro de Usuario</title>
+</head>
+<body>
+    <main class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+            <nav class="nav" aria-label="Navegacao principal">
+                <a href="/alunos/listar">Alunos</a>
+                <a href="/curso/listar">Cursos</a>
+                <a href="/professor/listar">Professores</a>
+                <a href="/disciplina/listar">Disciplinas</a>
+                <a href="/usuario/listar" aria-current="page">Usuarios</a>
+            </nav>
+        </header>
+
+        <section class="page-header">
+            <div>
+                <p class="eyebrow">Controle de acesso</p>
+                <h1 class="page-title">Cadastro de usuario</h1>
+                <p class="page-subtitle">Crie um acesso com login, senha e perfil de permissao.</p>
+            </div>
+        </section>
+
+        <form class="panel form-panel" th:action="@{/usuario/salvar}" th:object="${usuario}" method="post">
+            <input type="hidden" th:field="*{idUsuario}">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="nomeUsuario">Nome</label>
+                    <input id="nomeUsuario" type="text" th:field="*{nomeUsuario}" required>
+                </div>
+                <div class="field">
+                    <label for="emailUsuario">Email</label>
+                    <input id="emailUsuario" type="email" th:field="*{emailUsuario}" required>
+                </div>
+                <div class="field">
+                    <label for="loginUsuario">Login</label>
+                    <input id="loginUsuario" type="text" th:field="*{loginUsuario}" required>
+                </div>
+                <div class="field">
+                    <label for="role">Perfil</label>
+                    <select id="role" th:field="*{role}" required>
+                        <option value="ROLE_USER">Usuario</option>
+                        <option value="ROLE_ADMIN">Administrador</option>
+                    </select>
+                </div>
+                <div class="field field-full">
+                    <label for="senhaUsuario">Senha</label>
+                    <input id="senhaUsuario" type="password" th:field="*{senhaUsuario}" autocomplete="new-password" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="button button-primary" type="submit">Salvar</button>
+                <a class="button" href="/usuario/listar">Voltar</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

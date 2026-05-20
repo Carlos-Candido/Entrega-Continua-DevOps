@@ -13,15 +13,18 @@ import br.com.fatecads.fatecads.repository.AlunoRepository;
 import br.com.fatecads.fatecads.repository.CursoRepository;
 import br.com.fatecads.fatecads.repository.DisciplinaRepository;
 import br.com.fatecads.fatecads.repository.ProfessorRepository;
+import br.com.fatecads.fatecads.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
+@Transactional
 class FatecadsWebTests {
 
     @Autowired
@@ -38,6 +41,9 @@ class FatecadsWebTests {
 
     @Autowired
     private ProfessorRepository professorRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     private MockMvc mockMvc;
 
@@ -79,6 +85,15 @@ class FatecadsWebTests {
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/curso/criar"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void usuarioPagesRender() throws Exception {
+        mockMvc.perform(get("/usuario/listar"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/usuario/criar"))
                 .andExpect(status().isOk());
     }
 
@@ -136,5 +151,20 @@ class FatecadsWebTests {
         assertTrue(disciplinaRepository.findAll().stream()
                 .anyMatch(disciplina -> disciplina.getProfessor() != null
                         && professor.getIdProfessor().equals(disciplina.getProfessor().getIdProfessor())));
+    }
+
+    @Test
+    void savesUsuario() throws Exception {
+        mockMvc.perform(post("/usuario/salvar")
+                        .param("nomeUsuario", "Usuario Teste")
+                        .param("emailUsuario", "usuario.teste@example.com")
+                        .param("loginUsuario", "usuario.teste")
+                        .param("senhaUsuario", "senha123")
+                        .param("role", "ROLE_ADMIN"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/usuario/listar"));
+
+        assertTrue(usuarioRepository.findAll().stream()
+                .anyMatch(usuario -> "usuario.teste".equals(usuario.getLoginUsuario())));
     }
 }
