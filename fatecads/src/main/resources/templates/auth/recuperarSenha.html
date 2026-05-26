@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
+    <title>Recuperar senha</title>
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="panel auth-card" aria-labelledby="password-reset-title">
+            <a class="brand" th:href="@{/fatecads}">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+
+            <p class="eyebrow">Recuperacao de acesso</p>
+            <h1 id="password-reset-title" class="auth-title">Recuperar senha</h1>
+            <p class="auth-subtitle">Informe o email cadastrado para receber um link seguro de redefinicao.</p>
+
+            <form class="auth-form" th:action="@{/recuperar-senha}" method="post">
+                <div class="field">
+                    <label for="email">Email cadastrado</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required>
+                </div>
+
+                <p class="status-alert status-alert-error" th:if="${erro}" th:text="${erro}">Erro</p>
+                <p class="status-alert status-alert-success" th:if="${sucesso}" th:text="${sucesso}">Sucesso</p>
+
+                <div class="auth-actions">
+                    <button class="button button-primary" type="submit">Enviar link</button>
+                    <a class="button" th:href="@{/login}">Voltar para login</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

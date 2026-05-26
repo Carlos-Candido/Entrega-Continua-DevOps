@@ -8,4 +8,6 @@ import br.com.fatecads.fatecads.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByLoginUsuario(String loginUsuario);
+
+    Optional<Usuario> findFirstByEmailUsuarioIgnoreCaseOrderByIdUsuarioAsc(String emailUsuario);
 }

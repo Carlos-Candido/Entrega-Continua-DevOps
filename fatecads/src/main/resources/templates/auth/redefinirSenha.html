@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
+    <title>Redefinir senha</title>
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="panel auth-card" aria-labelledby="password-update-title">
+            <a class="brand" th:href="@{/fatecads}">
+                <span class="brand-mark">ADS</span>
+                <span>Sistema Fatec ADS</span>
+            </a>
+
+            <p class="eyebrow">Nova senha</p>
+            <h1 id="password-update-title" class="auth-title">Redefinir senha</h1>
+            <p class="auth-subtitle">Crie uma senha nova com pelo menos 8 caracteres.</p>
+
+            <form class="auth-form" th:action="@{/redefinir-senha}" method="post">
+                <input type="hidden" name="token" th:value="${token}">
+
+                <div class="field">
+                    <label for="senha">Nova senha</label>
+                    <input type="password" id="senha" name="senha" autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <div class="field">
+                    <label for="confirmacaoSenha">Confirmar nova senha</label>
+                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <p class="status-alert status-alert-error" th:if="${erro}" th:text="${erro}">Erro</p>
+
+                <div class="auth-actions">
+                    <button class="button button-primary" type="submit">Salvar nova senha</button>
+                    <a class="button" th:href="@{/login}">Voltar para login</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
