@@ -22,4 +22,11 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
               and token.usedAt is null
             """)
     int invalidateActiveTokens(@Param("usuario") Usuario usuario, @Param("usedAt") LocalDateTime usedAt);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+            delete from PasswordResetToken token
+            where token.usuario.idUsuario = :idUsuario
+            """)
+    int deleteByUsuarioId(@Param("idUsuario") Integer idUsuario);
 }

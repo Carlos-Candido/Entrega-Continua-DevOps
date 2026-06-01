@@ -4,14 +4,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
+
+import br.com.fatecads.fatecads.entity.Aluno;
 import br.com.fatecads.fatecads.entity.Curso;
 import br.com.fatecads.fatecads.entity.Disciplina;
+import br.com.fatecads.fatecads.entity.PasswordResetToken;
 import br.com.fatecads.fatecads.entity.Professor;
+import br.com.fatecads.fatecads.entity.Usuario;
 import br.com.fatecads.fatecads.repository.AlunoRepository;
 import br.com.fatecads.fatecads.repository.CursoRepository;
 import br.com.fatecads.fatecads.repository.DisciplinaRepository;
+import br.com.fatecads.fatecads.repository.PasswordResetTokenRepository;
 import br.com.fatecads.fatecads.repository.ProfessorRepository;
 import br.com.fatecads.fatecads.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +51,9 @@ class FatecadsWebTests {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     private MockMvc mockMvc;
 
@@ -118,6 +128,25 @@ class FatecadsWebTests {
     }
 
     @Test
+    void deletesAluno() throws Exception {
+        Aluno aluno = alunoRepository.save(new Aluno(
+                null,
+                "Aluno Remover",
+                "aluno.remover@example.com",
+                "11999999999",
+                "Rua Teste",
+                "12345678999",
+                "RA999",
+                null));
+
+        mockMvc.perform(get("/alunos/excluir/" + aluno.getIdAluno()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/alunos/listar"));
+
+        assertFalse(alunoRepository.existsById(aluno.getIdAluno()));
+    }
+
+    @Test
     void savesCursoWithDisciplina() throws Exception {
         Disciplina disciplina = disciplinaRepository.save(
                 new Disciplina(null, "DevOps", "DEV", 80, null));
@@ -166,5 +195,30 @@ class FatecadsWebTests {
 
         assertTrue(usuarioRepository.findAll().stream()
                 .anyMatch(usuario -> "usuario.teste".equals(usuario.getLoginUsuario())));
+    }
+
+    @Test
+    void deletesUsuarioWithPasswordResetToken() throws Exception {
+        Usuario usuario = usuarioRepository.save(new Usuario(
+                null,
+                "Usuario Remover",
+                "usuario.remover@example.com",
+                "usuario.remover",
+                "senha123",
+                "ROLE_USER"));
+        PasswordResetToken resetToken = passwordResetTokenRepository.save(new PasswordResetToken(
+                null,
+                usuario,
+                "hash-usuario-remover",
+                LocalDateTime.now().plusMinutes(30),
+                LocalDateTime.now(),
+                null));
+
+        mockMvc.perform(get("/usuario/excluir/" + usuario.getIdUsuario()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/usuario/listar"));
+
+        assertFalse(usuarioRepository.existsById(usuario.getIdUsuario()));
+        assertFalse(passwordResetTokenRepository.existsById(resetToken.getIdPasswordResetToken()));
     }
 }
