@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <body>
+  <th:block th:fragment="storefront(active)">
+   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+   <input class="drawer-toggle" id="drawer-toggle" type="checkbox"/>
+   <header class="loja-header">
+    <a class="loja-brand" th:href="@{/loja}">
+     <img alt="" aria-hidden="true" class="brand-mark" height="30" th:src="@{/images/fatecads-mark.svg}" width="30"/>
+     <span>FatecADS</span><small>Loja</small>
+    </a>
+    <input class="store-nav-toggle" id="store-nav-toggle" type="checkbox"/>
+    <label aria-controls="main-nav" class="store-nav-button" for="store-nav-toggle">Menu</label>
+    <nav aria-label="Navegação da loja" id="main-nav">
+     <a th:attr="aria-current=${active == 'loja' ? 'page' : null}" th:href="@{/loja}">Loja</a>
+     <a th:attr="aria-current=${active == 'produtos' ? 'page' : null}" th:href="@{/loja/produtos}">Produtos</a>
+     <a th:href="@{/loja#categorias}">Categorias</a>
+    </nav>
+    <form class="loja-header-search" method="get" th:action="@{/loja/produtos}">
+     <label class="sr-only" for="header-search">Buscar produtos</label>
+     <input id="header-search" name="q" placeholder="Buscar produtos" type="search"/>
+    </form>
+    <div class="loja-account">
+     <a class="cart-page-link" th:attr="aria-current=${active == 'carrinho' ? 'page' : null}" th:href="@{/loja/carrinho}">Carrinho</a><label class="cart-trigger" for="drawer-toggle">Abrir carrinho <span class="contador-carrinho" th:text="${totalCarrinho}">0</span></label>
+     <span class="cliente-nome" th:text="${clienteNome}">Cliente</span>
+     <form method="post" th:action="@{/logout}"><button class="logout-button" type="submit">Sair</button></form>
+    </div>
+   </header>
+   <label aria-label="Fechar carrinho" class="drawer-overlay" for="drawer-toggle"></label>
+   <aside aria-label="Carrinho" class="carrinho-drawer">
+    <div class="drawer-heading"><h2>Seu carrinho</h2><label aria-label="Fechar carrinho" for="drawer-toggle">×</label></div>
+    <p class="mensagem sucesso" th:if="${param.added}">Produto adicionado ao carrinho.</p>
+    <div class="drawer-items" th:if="${not #lists.isEmpty(itensCarrinho)}">
+     <article class="drawer-item" th:each="item : ${itensCarrinho}">
+      <img alt="" th:if="${item.produto.imagemProduto != null}" th:src="@{/produtos/imagem/{id}(id=${item.produto.idProduto})}"/>
+      <div class="drawer-item-placeholder" th:unless="${item.produto.imagemProduto != null}">Sem imagem</div>
+      <div><a th:href="@{/loja/produto/{id}(id=${item.produto.idProduto})}" th:text="${item.produto.descricaoProduto}">Produto</a><strong th:text="${'R$ ' + #numbers.formatDecimal(item.subtotal, 1, 2)}">R$ 0,00</strong>
+       <div class="drawer-actions"><form method="post" th:action="@{/loja/carrinho/alterar/{id}(id=${item.produto.idProduto})}"><input aria-label="Quantidade" min="1" name="quantidade" th:value="${item.quantidade}" type="number"/><button type="submit">Atualizar</button></form><form method="post" th:action="@{/loja/carrinho/remover/{id}(id=${item.produto.idProduto})}"><button class="link-button" type="submit">Remover</button></form></div>
+      </div>
+     </article>
+    </div>
+    <p class="store-empty" th:if="${#lists.isEmpty(itensCarrinho)}">Seu carrinho está vazio. Escolha produtos para continuar.</p>
+    <div class="drawer-summary"><div><span>Subtotal</span><strong th:text="${'R$ ' + #numbers.formatDecimal(totalPedido, 1, 2)}">R$ 0,00</strong></div><div><span>Total</span><strong th:text="${'R$ ' + #numbers.formatDecimal(totalPedido, 1, 2)}">R$ 0,00</strong></div><form method="post" th:action="@{/loja/finalizar}" th:if="${not #lists.isEmpty(itensCarrinho)}"><button type="submit">Finalizar compra</button></form></div>
+   </aside>
+  </th:block>
+  <th:block th:fragment="navigation(active)">
+   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+   <aside class="sidebar">
+    <a class="brand" href="/home"><img alt="" aria-hidden="true" class="brand-mark" height="32" th:src="@{/images/fatecads-mark.svg}" width="32"/> FatecADS</a>
+    <p class="brand-subtitle">Gestão acadêmica</p>
+    <button aria-controls="main-nav" aria-expanded="false" class="nav-toggle" onclick="const nav=document.getElementById('main-nav'); const open=this.getAttribute('aria-expanded')!=='true'; this.setAttribute('aria-expanded',open); nav.classList.toggle('is-open',open)" type="button">Menu</button>
+    <nav aria-label="Navegação principal" id="main-nav">
+     <a href="/home" th:attr="aria-current=${active == 'home' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/home.svg}" width="22"/>Visão geral</a><p class="nav-label">Acadêmico</p>
+     <a href="/alunos/listar" th:attr="aria-current=${active == 'aluno' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/graduation-cap.svg}" width="22"/>Alunos</a>
+     <a href="/cursos/listar" th:attr="aria-current=${active == 'curso' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/book-alt.svg}" width="22"/>Cursos</a>
+     <a href="/professores/listar" th:attr="aria-current=${active == 'professor' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/chalkboard-user.svg}" width="22"/>Professores</a>
+     <a href="/disciplinas/listar" th:attr="aria-current=${active == 'disciplina' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/book.svg}" width="22"/>Disciplinas</a><p class="nav-label">Administração</p>
+     <a href="/usuarios/listar" th:attr="aria-current=${active == 'usuario' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/users.svg}" width="22"/>Usuários</a><p class="nav-label">Comercial</p>
+     <a href="/produtos/listar" th:attr="aria-current=${active == 'produto' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/box.svg}" width="22"/>Produtos</a>
+     <a href="/pedidos/criar" th:attr="aria-current=${active == 'pedido' ? 'page' : null}"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/shopping-cart.svg}" width="22"/>Pedidos</a><p class="nav-label">Conta</p>
+     <a href="/login?logout" onclick="event.preventDefault(); document.getElementById('form-sair').submit();"><img alt="" aria-hidden="true" class="icon" height="22" th:src="@{/images/icons/logout.svg}" width="22"/>Sair</a><form id="form-sair" method="post" th:action="@{/logout}"></form>
+    </nav>
+   </aside>
+  </th:block>
+  <div class="attribution" th:fragment="credit">Ícones por <a href="https://www.flaticon.com/uicons" title="Flaticon Uicons">Flaticon</a></div>
+ </body>
+</html>
