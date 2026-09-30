@@ -1,44 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
-    <title>Login</title>
-</head>
-<body>
-    <main class="auth-shell">
-        <section class="panel auth-card" aria-labelledby="login-title">
-            <a class="brand" href="/fatecads">
-                <span class="brand-mark">ADS</span>
-                <span>Sistema Fatec ADS</span>
-            </a>
-
-            <p class="eyebrow">Acesso seguro</p>
-            <h1 id="login-title" class="auth-title">Entrar no sistema</h1>
-            <p class="auth-subtitle">Use seu login cadastrado para acessar o painel academico.</p>
-
-            <form class="auth-form" th:action="@{/login}" method="post">
-                <div class="field">
-                    <label for="username">Usuario</label>
-                    <input type="text" id="username" name="username" autocomplete="username" required>
-                </div>
-
-                <div class="field">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" name="password" autocomplete="current-password" required>
-                </div>
-
-                <p class="status-alert status-alert-error" th:if="${param.error}">Credenciais invalidas.</p>
-                <p class="status-alert status-alert-success" th:if="${param.logout}">Voce saiu do sistema.</p>
-
-                <div class="auth-actions">
-                    <button class="button button-primary" type="submit">Entrar</button>
-                    <a class="button" th:href="@{/recuperar-senha}">Esqueci minha senha</a>
-                    <a class="button" href="/fatecads">Voltar para a pagina inicial</a>
-                </div>
-            </form>
-        </section>
-    </main>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Acesso ao Sistema
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="auth-page login-editorial">
+  <aside class="login-manifesto" aria-label="FatecADS">
+   <a class="brand" href="/fatecads">
+    <img alt="" aria-hidden="true" class="icon brand-mark" height="32" src="/images/fatecads-mark.svg" th:src="@{/images/fatecads-mark.svg}" width="32"/>
+    FatecADS
+   </a>
+   <p class="eyebrow">AMBIENTE ACADÊMICO</p>
+   <h1>Conhecimento organizado para quem constrói o próximo capítulo.</h1>
+   <div class="manifesto-grid" aria-hidden="true"><span>01</span><i></i><b></b></div>
+  </aside>
+  <main class="container" id="main-content">
+   <h1>
+    Acesso ao Sistema
+   </h1>
+   <p class="subtitulo">
+    Entre com suas credenciais para continuar
+   </p>
+   <form method="post" th:action="@{/login}">
+    <label for="username">
+     Usuário
+    </label>
+    <input autocomplete="username" id="username" name="username" placeholder="Digite seu usuário" required="" type="text"/>
+    <label for="password">
+     Senha
+    </label>
+    <input autocomplete="current-password" id="password" name="password" placeholder="Digite sua senha" required="" type="password"/>
+    <button type="submit">
+     Entrar
+    </button>
+   </form>
+   <p class="mensagem erro" role="alert" th:if="${param.error}">
+    Usuário ou senha inválidos
+   </p>
+   <p class="mensagem sucesso" role="status" th:if="${param.logout}">
+    Logout efetuado com sucesso
+   </p>
+   <div class="linha">
+   </div>
+   <form action="/fatecads" method="get">
+    <button class="btn-home" type="submit">
+     Voltar para Home
+    </button>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
 </html>

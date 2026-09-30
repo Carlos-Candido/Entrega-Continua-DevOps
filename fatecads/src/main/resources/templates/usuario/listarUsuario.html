@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Lista de Usuários
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('usuario')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/users.svg" th:src="@{/images/icons/users.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Lista de Usuários
+      </h1>
+      <p class="subtitulo">
+       Gerenciamento dos usuários cadastrados
+      </p>
+     </div>
+    </div>
+    <a class="btn-novo" href="/usuarios/criar">
+     + Criar novo usuário
+    </a>
+   </div>
+   <div class="tabela-card">
+    <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-scroll" role="region" tabindex="0">
+     <table>
+      <thead>
+       <tr>
+        <th scope="col">
+         ID
+        </th>
+        <th scope="col">
+         Nome
+        </th>
+        <th scope="col">
+         Email
+        </th>
+        <th scope="col">
+         Login
+        </th>
+        <th scope="col">
+         Senha
+        </th>
+        <th scope="col">
+         Role
+        </th>
+        <th scope="col">
+         Ações
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr th:each="usuario : ${usuarios}">
+        <td class="id" th:text="${usuario.idUsuario}">
+         *
+        </td>
+        <td th:text="${usuario.nomeUsuario}">
+         *
+        </td>
+        <td th:text="${usuario.emailUsuario}">
+         *
+        </td>
+        <td th:text="${usuario.loginUsuario}">
+         *
+        </td>
+        <td>
+         ********
+        </td>
+        <td>
+         <span class="role" th:text="${usuario.role}">
+          *
+         </span>
+        </td>
+        <td>
+         <div class="acoes">
+          <a class="editar" th:href="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}">
+           Editar
+          </a>
+          <a class="excluir" th:href="@{/usuarios/excluir/{id}(id=${usuario.idUsuario})}">
+           Excluir
+          </a>
+         </div>
+        </td>
+       </tr>
+       <tr class="empty-row" th:if="${#lists.isEmpty(usuarios)}">
+        <td colspan="7">
+         <strong>
+          Nenhum registro cadastrado
+         </strong>
+         Use o botão de cadastro acima para adicionar o primeiro registro.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Sistema Acadêmico
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Crie sua conta | FatecADS</title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="auth-page cadastro-page">
+  <main class="container" id="main-content">
+   <a class="brand" href="/fatecads">
+    <img alt="" aria-hidden="true" class="brand-mark" height="32" src="/images/fatecads-mark.svg" th:src="@{/images/fatecads-mark.svg}" width="32"/>
+    FatecADS
+   </a>
+   <p class="eyebrow">NOVO ACESSO</p>
+   <h1>Crie sua conta.</h1>
+   <p class="subtitulo">Crie sua conta e escolha como vai usar o sistema.</p>
+   <form class="data-form" method="post" th:action="@{/usuarios/cadastro/salvar}" th:object="${usuario}">
+    <input th:field="*{idUsuario}" type="hidden"/>
+    <p class="form-kicker">[01] Dados principais</p>
+    <div class="field"><label for="nome">Nome</label><input id="nome" placeholder="Digite seu nome" required="" th:field="*{nomeUsuario}" type="text"/></div>
+    <div class="field"><label for="email">Email</label><input id="email" placeholder="Digite seu email" required="" th:field="*{emailUsuario}" type="email"/></div>
+    <div class="field"><label for="login">Login</label><input id="login" placeholder="Escolha um login" required="" th:field="*{loginUsuario}" type="text"/></div>
+    <div class="field"><label for="senha">Senha</label><input id="senha" placeholder="Crie uma senha" required="" th:field="*{senhaUsuario}" type="password"/></div>
+    <div class="field"><label for="role">Perfil de Acesso</label><select id="role" name="role"><option selected="" value="ROLE_CLIENTE">Cliente (loja)</option><option value="ROLE_ADMIN">Administrador</option></select></div>
+    <div class="form-actions"><input class="botao" type="submit" value="Criar conta"/><a class="voltar" href="/fatecads">Cancelar</a></div>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}"></div>
+  </main>
+ </body>
+</html>
