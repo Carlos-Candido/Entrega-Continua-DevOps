@@ -12,42 +12,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.fatecads.fatecads.entity.Usuario;
 import br.com.fatecads.fatecads.service.UsuarioService;
 
+
+
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
-
+    
+    // Injeção de dependêccia da service de alunos
     @Autowired
-    private UsuarioService usuariosService;
+    private UsuarioService usuarioService;
 
-    //Método para salvar um usuario
+    // Método para salvar um aluno
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Usuario usuario){
-        usuariosService.save(usuario);
-        return "redirect:/usuario/listar";
-    }
+    public String salvar(@ModelAttribute Usuario usuario) {
+        usuarioService.save(usuario);
+        return "/login";
+    }   
 
+    // Método para listar todos os alunos
     @GetMapping("/listar")
-    public String listar(Model model){
-        model.addAttribute("usuarios", usuariosService.findAll());
-        return "usuario/listarUsuarios";
+    public String listar(Model model) {
+        
+        model.addAttribute("usuarios", usuarioService.findAll());
+        return "usuario/listarUsuario";
     }
 
+    // Método para criar um novo aluno e abrir um novo formulário
     @GetMapping("/criar")
-    public String criarForm(Model model){
+    public String criarForm(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "usuario/formularioUsuario";
     }
 
-    @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Integer id) {
-        usuariosService.deleteById(id);
-        return "redirect:/usuario/listar";
+    // Cadastro público: o visitante escolhe o perfil da conta
+    @PostMapping("/cadastro/salvar")
+    public String salvarCadastro(@ModelAttribute Usuario usuario) {
+        if (usuario.getRole() == null || usuario.getRole().isBlank()) {
+            usuario.setRole("ROLE_CLIENTE");
+        }
+        usuarioService.save(usuario);
+        return "redirect:/login";
     }
 
+    @GetMapping("/cadastro")
+    public String cadastroForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "usuario/cadastroUsuario";
+    }
+
+
+    // Método para excluir um aluno pelo ID
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Integer id) {
+        usuarioService.deleteById(id);
+        return "redirect:/usuarios/listar";
+    }
+    
+    // Método para editar um aluno pelo ID
     @GetMapping("/editar/{id}")
     public String editarForm(@PathVariable Integer id, Model model) {
-        Usuario usuario = usuariosService.findById(id);
+        Usuario usuario = usuarioService.findById(id);
         model.addAttribute("usuario", usuario);
         return "usuario/formularioUsuario";
     }
+    
 }
