@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Lista de Disciplinas
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('disciplina')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo-area">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/book.svg" th:src="@{/images/icons/book.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Lista de Disciplinas
+      </h1>
+      <p class="subtitulo">
+       Gerencie as disciplinas cadastradas no sistema
+      </p>
+     </div>
+    </div>
+    <a class="btn-novo" href="/disciplinas/criar">
+     + Nova Disciplina
+    </a>
+   </div>
+   <div class="tabela-card">
+    <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-scroll" role="region" tabindex="0">
+     <table>
+      <thead>
+       <tr>
+        <th scope="col">
+         ID
+        </th>
+        <th scope="col">
+         Nome
+        </th>
+        <th scope="col">
+         Sigla
+        </th>
+        <th scope="col">
+         Carga Horária
+        </th>
+        <th scope="col">
+         Curso
+        </th>
+        <th scope="col">
+         Professor
+        </th>
+        <th scope="col">
+         Ações
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr th:each="disciplina : ${disciplinas}">
+        <td class="id" th:text="${disciplina.idDisciplina}">
+         *
+        </td>
+        <td class="nome" th:text="${disciplina.nomeDisciplina}">
+         *
+        </td>
+        <td>
+         <span class="sigla" th:text="${disciplina.siglaDisciplina}">
+          *
+         </span>
+        </td>
+        <td>
+         <span class="carga">
+          <span th:text="${disciplina.cargaHorariaDisciplina}">
+           *
+          </span>
+          h
+         </span>
+        </td>
+        <td th:text="${disciplina.curso.nomeCurso}">
+         *
+        </td>
+        <td th:text="${disciplina.professor.nomeProfessor}">
+         *
+        </td>
+        <td>
+         <div class="acoes">
+          <a class="editar" th:href="@{/disciplinas/editar/{id}(id=${disciplina.idDisciplina})}">
+           Editar
+          </a>
+          <a class="excluir" th:href="@{/disciplinas/excluir/{id}(id=${disciplina.idDisciplina})}">
+           Excluir
+          </a>
+         </div>
+        </td>
+       </tr>
+       <tr class="empty-row" th:if="${#lists.isEmpty(disciplinas)}">
+        <td colspan="7">
+         <strong>
+          Nenhum registro cadastrado
+         </strong>
+         Use o botão de cadastro acima para adicionar o primeiro registro.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Gerenciamento de Disciplinas
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

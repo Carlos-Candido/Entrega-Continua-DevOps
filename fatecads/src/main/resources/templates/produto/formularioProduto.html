@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Cadastro de Produtos
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('produto')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="logo">
+    <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/box.svg" th:src="@{/images/icons/box.svg}" width="22"/>
+   </div>
+   <h1>
+    Cadastro de Produtos
+   </h1>
+   <p class="subtitulo">
+    Cadastre ou atualize os dados do produto
+   </p>
+   <form class="data-form" enctype="multipart/form-data" method="post" th:action="@{/produtos/salvar}" th:object="${produto}">
+    <input name="idProduto" th:field="*{idProduto}" type="hidden"/>
+    <div class="field">
+     <label for="descricaoProduto">
+      Descrição do Produto
+     </label>
+     <input id="descricaoProduto" name="descricaoProduto" placeholder="Digite a descrição do produto" required="" th:field="*{descricaoProduto}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="valorProduto">
+      Valor do Produto
+     </label>
+     <input id="valorProduto" min="0" name="valorProduto" placeholder="Ex: 29.90" required="" step="0.01" th:field="*{valorProduto}" type="number"/>
+    </div>
+    <div class="field">
+     <label for="unidadeProduto">
+      Unidade
+     </label>
+     <input id="unidadeProduto" name="unidadeProduto" placeholder="Ex: Unidade, Kg, Caixa..." required="" th:field="*{unidadeProduto}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="marcaProduto">
+      Marca
+     </label>
+     <input id="marcaProduto" name="marcaProduto" placeholder="Digite a marca do produto" required="" th:field="*{marcaProduto}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="imagem">
+      Imagem do Produto
+     </label>
+     <div class="image-upload-control">
+      <input accept="image/*" aria-describedby="imagem-status" class="image-file-input" id="imagem" name="imagem" type="file"/>
+      <label class="image-upload-button" for="imagem">+ Adicionar imagem</label>
+      <span class="file-status" id="imagem-status" role="status">Nenhum arquivo selecionado</span>
+     </div>
+     <img alt="Prévia da imagem selecionada" class="image-preview" hidden="" id="imagem-preview"/>
+    </div>
+    <div class="form-actions">
+     <input class="botao" type="submit" value="Salvar Produto"/>
+     <a class="voltar" href="/produtos/listar">
+      Cancelar
+     </a>
+    </div>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+ </main>
+ <script>
+  const imagemInput = document.getElementById('imagem');
+  const imagemStatus = document.getElementById('imagem-status');
+  const imagemPreview = document.getElementById('imagem-preview');
+
+  imagemInput.addEventListener('change', () => {
+   const arquivo = imagemInput.files[0];
+   imagemStatus.textContent = arquivo ? arquivo.name : 'Nenhum arquivo selecionado';
+
+   if (!arquivo) {
+    imagemPreview.hidden = true;
+    imagemPreview.removeAttribute('src');
+    return;
+   }
+
+   imagemPreview.src = URL.createObjectURL(arquivo);
+   imagemPreview.hidden = false;
+  });
+ </script>
+ </body>
+</html>

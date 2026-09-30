@@ -1,78 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
-    <title>Cadastro de Alunos</title>
-</head>
-<body>
-    <main class="app-shell">
-        <header class="topbar">
-            <a class="brand" href="/">
-                <span class="brand-mark">ADS</span>
-                <span>Sistema Fatec ADS</span>
-            </a>
-            <nav class="nav" aria-label="Navegacao principal">
-                <a href="/alunos/listar" aria-current="page">Alunos</a>
-                <a href="/curso/listar">Cursos</a>
-                <a href="/professor/listar">Professores</a>
-                <a href="/disciplina/listar">Disciplinas</a>
-                <a href="/usuario/listar">Usuarios</a>
-            </nav>
-        </header>
-
-        <section class="page-header">
-            <div>
-                <p class="eyebrow">Modulo academico</p>
-                <h1 class="page-title">Cadastro de aluno</h1>
-                <p class="page-subtitle">Preencha os dados do aluno para salvar o cadastro.</p>
-            </div>
-        </section>
-
-        <form class="panel form-panel" th:action="@{/alunos/salvar}" method="post" th:object="${aluno}">
-            <input type="hidden" th:field="*{idAluno}">
-            <div class="form-grid">
-                <div class="field">
-                    <label for="nomeAluno">Nome</label>
-                    <input id="nomeAluno" type="text" th:field="*{nomeAluno}" required>
-                </div>
-                <div class="field">
-                    <label for="emailAluno">Email</label>
-                    <input id="emailAluno" type="email" th:field="*{emailAluno}">
-                </div>
-                <div class="field">
-                    <label for="telefoneAluno">Telefone</label>
-                    <input id="telefoneAluno" type="text" th:field="*{telefoneAluno}" required>
-                </div>
-                <div class="field">
-                    <label for="cpfAluno">CPF</label>
-                    <input id="cpfAluno" type="text" th:field="*{cpfAluno}" required>
-                </div>
-                <div class="field field-full">
-                    <label for="enderecoAluno">Endereco</label>
-                    <input id="enderecoAluno" type="text" th:field="*{enderecoAluno}" required>
-                </div>
-                <div class="field">
-                    <label for="raAluno">RA</label>
-                    <input id="raAluno" type="text" th:field="*{raAluno}" required>
-                </div>
-                <div class="field">
-                    <label for="curso">Curso</label>
-                    <select id="curso" th:field="*{curso}" required>
-                        <option value="">Selecione um curso</option>
-                        <option th:each="curso : ${cursos}"
-                                th:value="${curso.idCurso}"
-                                th:text="${curso.nomeCurso}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="button button-primary" type="submit">Salvar</button>
-                <a class="button" href="/alunos/listar">Voltar</a>
-            </div>
-        </form>
-    </main>
-</body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Cadastro de Alunos
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('aluno')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="logo">
+    <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/graduation-cap.svg" th:src="@{/images/icons/graduation-cap.svg}" width="22"/>
+   </div>
+   <h1>
+    Cadastro de Alunos
+   </h1>
+   <p class="subtitulo">
+    Cadastre ou atualize os dados do aluno
+   </p>
+   <form class="data-form" method="post" th:action="@{/alunos/salvar}" th:object="${aluno}">
+    <input th:field="*{idAluno}" type="hidden"/>
+    <div class="field">
+     <label for="nomeAluno">
+      Nome
+     </label>
+     <input id="nomeAluno" placeholder="Digite o nome completo" required="" th:field="*{nomeAluno}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="emailAluno">
+      Email
+     </label>
+     <input id="emailAluno" placeholder="exemplo@email.com" required="" th:field="*{emailAluno}" type="email"/>
+    </div>
+    <div class="field">
+     <label for="telefoneAluno">
+      Telefone
+     </label>
+     <input id="telefoneAluno" placeholder="(00) 00000-0000" required="" th:field="*{telefoneAluno}" type="tel"/>
+    </div>
+    <div class="field">
+     <label for="cpfAluno">
+      CPF
+     </label>
+     <input id="cpfAluno" placeholder="000.000.000-00" required="" th:field="*{cpfAluno}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="enderecoAluno">
+      Endereço
+     </label>
+     <input id="enderecoAluno" placeholder="Digite o endereço do aluno" required="" th:field="*{enderecoAluno}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="raAluno">
+      RA
+     </label>
+     <input id="raAluno" placeholder="Digite o RA" required="" th:field="*{raAluno}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="curso">
+      Curso
+     </label>
+     <select id="curso" required="" th:field="*{curso}">
+      <option disabled="" value="">
+       Selecione um curso
+      </option>
+      <option th:each="curso : ${cursos}" th:text="${curso.nomeCurso}" th:value="${curso.idCurso}">
+      </option>
+     </select>
+    </div>
+    <div class="form-actions">
+     <input class="botao" type="submit" value="Salvar Aluno"/>
+     <a class="voltar" href="/alunos/listar">
+      Cancelar
+     </a>
+    </div>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Lista de Cursos
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('curso')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo-area">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/book-alt.svg" th:src="@{/images/icons/book-alt.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Lista de Cursos
+      </h1>
+      <p class="subtitulo">
+       Gerencie os cursos cadastrados no sistema
+      </p>
+     </div>
+    </div>
+    <a class="btn-novo" href="/cursos/criar">
+     + Novo Curso
+    </a>
+   </div>
+   <div class="tabela-card">
+    <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-scroll" role="region" tabindex="0">
+     <table>
+      <thead>
+       <tr>
+        <th scope="col">
+         ID
+        </th>
+        <th scope="col">
+         Nome
+        </th>
+        <th scope="col">
+         Período
+        </th>
+        <th scope="col">
+         Carga Horária
+        </th>
+        <th scope="col">
+         Ações
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr th:each="curso : ${cursos}">
+        <td class="id" th:text="${curso.idCurso}">
+         *
+        </td>
+        <td class="nome" th:text="${curso.nomeCurso}">
+         *
+        </td>
+        <td>
+         <span class="periodo" th:text="${curso.periodoCurso}">
+          *
+         </span>
+        </td>
+        <td>
+         <span class="carga">
+          <span th:text="${curso.cargaHorariaCurso}">
+           *
+          </span>
+          h
+         </span>
+        </td>
+        <td>
+         <div class="acoes">
+          <a class="editar" th:href="@{/cursos/editar/{id}(id=${curso.idCurso})}">
+           Editar
+          </a>
+          <a class="excluir" th:href="@{/cursos/excluir/{id}(id=${curso.idCurso})}">
+           Excluir
+          </a>
+         </div>
+        </td>
+       </tr>
+       <tr class="empty-row" th:if="${#lists.isEmpty(cursos)}">
+        <td colspan="5">
+         <strong>
+          Nenhum registro cadastrado
+         </strong>
+         Use o botão de cadastro acima para adicionar o primeiro registro.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Gerenciamento de Cursos
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

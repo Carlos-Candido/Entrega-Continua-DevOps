@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Cadastro de Pedido
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page pedido-page">
+  <th:block th:replace="~{fragments/layout :: navigation('pedido')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo-area">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/shopping-cart.svg" th:src="@{/images/icons/shopping-cart.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Cadastro de Pedido
+      </h1>
+      <p class="subtitulo">
+       Selecione o aluno e adicione os produtos ao pedido
+      </p>
+     </div>
+    </div>
+    <a class="voltar" th:href="@{/home}">
+     ← Voltar
+    </a>
+   </div>
+   <div class="painel">
+    <div class="secao">
+     <div class="secao-titulo">
+      <div class="numero">
+       1
+      </div>
+      Identificação do Aluno
+     </div>
+     <label for="aluno">
+      Aluno
+     </label>
+     <select id="aluno" required="">
+      <option disabled="" selected="" value="">Selecione um aluno</option>
+      <option th:each="aluno : ${alunos}" th:text="${aluno.idAluno + ' - ' + aluno.nomeAluno}" th:value="${aluno.idAluno + ' - ' + aluno.nomeAluno}"></option>
+     </select>
+    </div>
+    <div class="linha">
+    </div>
+    <div class="secao">
+     <div class="secao-titulo">
+      <div class="numero">
+       2
+      </div>
+      Adicionar Produto
+     </div>
+     <div class="campos-produto">
+      <div class="campo">
+       <label for="produto">
+        Produto
+       </label>
+       <select id="produto" required="">
+        <option disabled="" selected="" value="">Selecione um produto</option>
+        <option th:attr="data-preco=${produto.valorProduto}" th:each="produto : ${produtos}" th:text="${produto.idProduto + ' - ' + produto.descricaoProduto}" th:value="${produto.idProduto + ' - ' + produto.descricaoProduto}"></option>
+       </select>
+      </div>
+      <div class="campo">
+       <label for="quantidade">
+        Quantidade
+       </label>
+       <input id="quantidade" min="1" placeholder="1" type="number"/>
+      </div>
+     </div>
+     <button class="botao-adicionar" onclick="adicionarItem()" type="button">
+      + Adicionar Produto
+     </button>
+    </div>
+    <div class="linha">
+    </div>
+    <div class="secao">
+     <div class="secao-titulo">
+      <div class="numero">
+       3
+      </div>
+      Itens do Pedido
+     </div>
+     <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-container" role="region" tabindex="0">
+      <table>
+       <thead>
+        <tr>
+         <th scope="col">
+          Produto
+         </th>
+         <th scope="col">
+          Quantidade
+         </th>
+         <th scope="col">
+          Preço Unit.
+         </th>
+         <th scope="col">
+          Subtotal
+         </th>
+         <th scope="col">
+          Ação
+         </th>
+        </tr>
+       </thead>
+       <tbody id="tabela-itens">
+        <tr class="empty-row" id="empty-row">
+         <td colspan="5">
+          Nenhum produto adicionado ao pedido
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    <div class="secao-titulo resumo-editorial">
+     <div class="numero">4</div>
+     Resumo
+    </div>
+    <div class="resumo">
+      <div class="total">
+       <span>
+        Resumo do Pedido · Total
+       </span>
+       <span aria-atomic="true" aria-live="polite" id="totalPedido">
+        R$ 0,00
+       </span>
+      </div>
+     </div>
+     <button class="botao-salvar" onclick="salvarPedido()" type="button">
+      Confirmar e Salvar Pedido
+     </button>
+     <p aria-live="polite" class="mensagem pedido-feedback" id="pedido-feedback" hidden="">
+     </p>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Gerenciamento de Pedidos
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+  <script>
+   function escapeHtml(value) {
+            const span = document.createElement("span");
+            span.textContent = value;
+            return span.innerHTML;
+        }
+
+
+        let itens = [];
+
+
+        function adicionarItem() {
+
+            let produtoInput =
+                document.getElementById("produto").value;
+
+            let quantidade =
+                document.getElementById("quantidade").value;
+
+
+            if (!produtoInput || quantidade <= 0) {
+
+                alert(
+                    "Preencha corretamente o produto e a quantidade!"
+                );
+
+                return false;
+            }
+
+
+            let partes =
+                produtoInput.split(" - ");
+
+
+            let produtoId =
+                partes[0];
+
+            let produtoNome =
+                partes[1];
+
+
+            let options =
+                document.querySelectorAll(
+                    "#produto option"
+                );
+
+
+            let preco = null;
+
+
+            options.forEach(opt => {
+
+                if (opt.value === produtoInput) {
+
+                    preco =
+                        opt.getAttribute(
+                            "data-preco"
+                        );
+
+                }
+
+            });
+
+
+            if (!preco) {
+
+                alert(
+                    "Produto inválido! Selecione um produto da lista."
+                );
+
+                return false;
+            }
+
+
+            let subtotal =
+                quantidade * preco;
+
+
+            itens.push({
+
+                produto: {
+                    idProduto: produtoId
+                },
+
+                nomeProduto: produtoNome,
+
+                quantidade:
+                    parseInt(quantidade),
+
+                preco:
+                    parseFloat(preco),
+
+                subtotal:
+                    subtotal
+
+            });
+
+
+            document.getElementById("produto").value = "";
+
+            document.getElementById("quantidade").value = "";
+
+
+            renderTabela();
+
+            return true;
+
+        }
+
+
+        function removerItem(index) {
+
+            itens.splice(index, 1);
+
+            renderTabela();
+
+        }
+
+
+        function alterarQuantidade(
+            index,
+            novaQuantidade
+        ) {
+
+            novaQuantidade =
+                parseInt(novaQuantidade);
+
+
+            if (
+                novaQuantidade <= 0 ||
+                isNaN(novaQuantidade)
+            ) {
+
+                alert(
+                    "A quantidade deve ser maior que zero!"
+                );
+
+                renderTabela();
+
+                return;
+            }
+
+
+            itens[index].quantidade =
+                novaQuantidade;
+
+
+            itens[index].subtotal =
+                itens[index].quantidade *
+                itens[index].preco;
+
+
+            renderTabela();
+
+        }
+
+
+        function renderTabela() {
+
+            let tabela =
+                document.getElementById(
+                    "tabela-itens"
+                );
+
+
+            tabela.innerHTML = "";
+
+
+            if (itens.length === 0) {
+
+                tabela.innerHTML = `
+                    <tr class="empty-row" id="empty-row">
+
+                        <td colspan="5">
+
+                            Nenhum produto adicionado ao pedido
+
+                        </td>
+
+                    </tr>
+                `;
+
+
+                document.getElementById(
+                    "totalPedido"
+                ).innerText =
+                    "R$ 0,00";
+
+
+                return;
+            }
+
+
+            let total = 0;
+
+
+            itens.forEach(
+                (item, index) => {
+
+                    total +=
+                        item.subtotal;
+
+
+                    tabela.innerHTML += `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(item.nomeProduto)}
+                            </td>
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    class="quantidade-tabela"
+                                    aria-label="Quantidade do item ${index + 1}"
+                                    value="${item.quantidade}"
+                                    min="1"
+                                    onchange="alterarQuantidade(${index}, this.value)"
+                                >
+
+                            </td>
+
+                            <td>
+
+                                R$ ${item.preco
+                            .toFixed(2)
+                            .replace('.', ',')}
+
+                            </td>
+
+                            <td>
+
+                                R$ ${item.subtotal
+                            .toFixed(2)
+                            .replace('.', ',')}
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="btn-remove"
+                                    aria-label="Remover item ${index + 1}"
+                                    onclick="removerItem(${index})"
+                                >
+
+                                    Remover
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            document.getElementById(
+                "totalPedido"
+            ).innerText =
+                "R$ " +
+                total
+                    .toFixed(2)
+                    .replace('.', ',');
+
+        }
+
+
+        function salvarPedido() {
+
+            let alunoInput =
+                document.getElementById(
+                    "aluno"
+                ).value;
+
+
+            if (!alunoInput) {
+
+                alert(
+                    "Selecione um aluno antes de salvar!"
+                );
+
+                return;
+            }
+
+
+            if (itens.length === 0) {
+
+                const produtoPreenchido = document.getElementById("produto").value.trim();
+                const quantidadePreenchida = document.getElementById("quantidade").value;
+
+                if (produtoPreenchido && Number(quantidadePreenchida) > 0) {
+                    adicionarItem();
+                }
+
+            }
+
+            if (itens.length === 0) {
+
+                alert(
+                    "Adicione ao menos um produto ao pedido!"
+                );
+
+                return;
+            }
+
+
+            let alunoId =
+                alunoInput.split(" - ")[0];
+
+
+            let pedido = {
+
+                cliente: {
+                    idAluno: alunoId
+                },
+
+                itens: itens
+
+            };
+
+
+            fetch("/pedidos", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body:
+                    JSON.stringify(pedido)
+
+            })
+
+                .then(res => {
+
+                    if (!res.ok) {
+
+                        throw new Error(
+                            "Erro ao salvar pedido"
+                        );
+
+                    }
+
+                    return res.json();
+
+                })
+
+                .then(data => {
+
+                    const feedback = document.getElementById("pedido-feedback");
+                    const botaoSalvar = document.querySelector(".botao-salvar");
+
+                    feedback.hidden = false;
+                    feedback.className = "mensagem sucesso pedido-feedback";
+                    feedback.textContent = "Pedido salvo com sucesso. Os itens permanecem visíveis nesta tela.";
+                    botaoSalvar.disabled = true;
+                    botaoSalvar.textContent = "Pedido salvo";
+
+                })
+
+                .catch(err => {
+
+                    const feedback = document.getElementById("pedido-feedback");
+                    feedback.hidden = false;
+                    feedback.className = "mensagem erro pedido-feedback";
+                    feedback.textContent = "Erro ao salvar o pedido. Tente novamente.";
+
+                    console.error(err);
+
+                });
+
+        }
+  </script>
+ </body>
+</html>

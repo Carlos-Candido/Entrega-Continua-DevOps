@@ -1,60 +1,61 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
-    <title>Cadastro de Professores</title>
-</head>
-<body>
-    <main class="app-shell">
-        <header class="topbar">
-            <a class="brand" href="/">
-                <span class="brand-mark">ADS</span>
-                <span>Sistema Fatec ADS</span>
-            </a>
-            <nav class="nav" aria-label="Navegacao principal">
-                <a href="/alunos/listar">Alunos</a>
-                <a href="/curso/listar">Cursos</a>
-                <a href="/professor/listar" aria-current="page">Professores</a>
-                <a href="/disciplina/listar">Disciplinas</a>
-                <a href="/usuario/listar">Usuarios</a>
-            </nav>
-        </header>
-
-        <section class="page-header">
-            <div>
-                <p class="eyebrow">Modulo academico</p>
-                <h1 class="page-title">Cadastro de professor</h1>
-                <p class="page-subtitle">Preencha os dados profissionais do professor.</p>
-            </div>
-        </section>
-
-        <form class="panel form-panel" th:action="@{/professor/salvar}" method="post" th:object="${professor}">
-            <input type="hidden" th:field="*{idProfessor}">
-            <div class="form-grid">
-                <div class="field">
-                    <label for="nomeProfessor">Nome</label>
-                    <input id="nomeProfessor" type="text" th:field="*{nomeProfessor}" required>
-                </div>
-                <div class="field">
-                    <label for="telefoneProfessor">Telefone</label>
-                    <input id="telefoneProfessor" type="text" th:field="*{telefoneProfessor}" required>
-                </div>
-                <div class="field">
-                    <label for="graduacaoProfessor">Graduacao</label>
-                    <input id="graduacaoProfessor" type="text" th:field="*{graduacaoProfessor}" required>
-                </div>
-                <div class="field">
-                    <label for="rmProfessor">RM</label>
-                    <input id="rmProfessor" type="text" th:field="*{rmProfessor}" required>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="button button-primary" type="submit">Salvar</button>
-                <a class="button" href="/professor/listar">Voltar</a>
-            </div>
-        </form>
-    </main>
-</body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Cadastro de Professor
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('professor')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="logo">
+    <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/chalkboard-user.svg" th:src="@{/images/icons/chalkboard-user.svg}" width="22"/>
+   </div>
+   <h1>
+    Cadastro de Professor
+   </h1>
+   <p class="subtitulo">
+    Cadastre ou atualize os dados do professor
+   </p>
+   <form class="data-form" method="post" th:action="@{/professores/salvar}" th:object="${professor}">
+    <input th:field="*{idProfessor}" type="hidden"/>
+    <div class="field">
+     <label for="nome">
+      Nome
+     </label>
+     <input id="nome" placeholder="Digite o nome do professor" required="" th:field="*{nomeProfessor}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="telefone">
+      Telefone
+     </label>
+     <input id="telefone" placeholder="Digite o telefone" required="" th:field="*{telefoneProfessor}" type="tel"/>
+    </div>
+    <div class="field">
+     <label for="graduacao">
+      Graduação
+     </label>
+     <input id="graduacao" placeholder="Ex: Ciência da Computação" required="" th:field="*{graduacaoProfessor}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="rm">
+      RM
+     </label>
+     <input id="rm" placeholder="Digite o RM do professor" required="" th:field="*{rmProfessor}" type="text"/>
+    </div>
+    <div class="form-actions">
+     <input class="botao" type="submit" value="Salvar Professor"/>
+     <a class="voltar" href="/professores/listar">
+      Cancelar
+     </a>
+    </div>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
 </html>

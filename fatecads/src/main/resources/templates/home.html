@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Sistema FatecADS
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('home')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <h1>
+    Diretório acadêmico
+   </h1>
+   <p class="subtitulo">
+    Áreas institucionais para organizar a rotina acadêmica com clareza e precisão.
+   </p>
+   <section class="module-group">
+    <h2>
+     Acadêmico
+    </h2>
+    <div class="menu">
+     <a class="card" href="/alunos/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/graduation-cap.svg" th:src="@{/images/icons/graduation-cap.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Alunos
+      </div>
+      <div class="card-descricao">
+       Gerenciar alunos cadastrados
+      </div>
+     </a>
+     <a class="card" href="/cursos/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/book-alt.svg" th:src="@{/images/icons/book-alt.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Cursos
+      </div>
+      <div class="card-descricao">
+       Organizar os cursos disponíveis
+      </div>
+     </a>
+     <a class="card" href="/professores/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/chalkboard-user.svg" th:src="@{/images/icons/chalkboard-user.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Professores
+      </div>
+      <div class="card-descricao">
+       Gerenciar o corpo docente
+      </div>
+     </a>
+     <a class="card" href="/disciplinas/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/book.svg" th:src="@{/images/icons/book.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Disciplinas
+      </div>
+      <div class="card-descricao">
+       Organizar as disciplinas
+      </div>
+     </a>
+    </div>
+   </section>
+   <section class="module-group">
+    <h2>
+     Administração
+    </h2>
+    <div class="menu">
+     <a class="card" href="/usuarios/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/users.svg" th:src="@{/images/icons/users.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Usuários
+      </div>
+      <div class="card-descricao">
+       Gerenciar contas do sistema
+      </div>
+     </a>
+    </div>
+   </section>
+   <section class="module-group">
+    <h2>
+     Comercial
+    </h2>
+    <div class="menu">
+     <a class="card" href="/produtos/listar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/box.svg" th:src="@{/images/icons/box.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Produtos
+      </div>
+      <div class="card-descricao">
+       Consultar e cadastrar produtos
+      </div>
+     </a>
+     <a class="card" href="/pedidos/criar">
+      <div class="card-icone">
+       <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/shopping-cart.svg" th:src="@{/images/icons/shopping-cart.svg}" width="22"/>
+      </div>
+      <div class="card-titulo">
+       Pedidos
+      </div>
+      <div class="card-descricao">
+       Criar um pedido para um aluno
+      </div>
+     </a>
+    </div>
+   </section>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

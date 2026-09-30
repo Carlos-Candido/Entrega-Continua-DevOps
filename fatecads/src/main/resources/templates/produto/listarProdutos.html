@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Lista de Produtos
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('produto')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo-area">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/box.svg" th:src="@{/images/icons/box.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Lista de Produtos
+      </h1>
+      <p class="subtitulo">
+       Gerencie os produtos cadastrados no sistema
+      </p>
+     </div>
+    </div>
+    <a class="btn-novo" th:href="@{/produtos/criar}">
+     + Novo Produto
+    </a>
+   </div>
+   <div class="tabela-card">
+    <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-scroll" role="region" tabindex="0">
+     <table>
+      <thead>
+       <tr>
+        <th scope="col">
+         Imagem
+        </th>
+        <th scope="col">
+         Descrição
+        </th>
+        <th scope="col">
+         Valor
+        </th>
+        <th scope="col">
+         Unidade
+        </th>
+        <th scope="col">
+         Marca
+        </th>
+        <th scope="col">
+         Ações
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr th:each="produto : ${produtos}">
+        <td>
+         <img alt="Imagem do produto" class="imagem-produto" th:if="${produto.imagemProduto != null}" th:src="@{/produtos/imagem/{id}(id=${produto.idProduto})}"/>
+         <div class="sem-imagem" th:unless="${produto.imagemProduto != null}">
+          Sem imagem
+         </div>
+        </td>
+        <td class="descricao" th:text="${produto.descricaoProduto}">
+         Produto
+        </td>
+        <td class="valor" th:text="${produto.valorProduto}">
+         0.00
+        </td>
+        <td>
+         <span class="unidade" th:text="${produto.unidadeProduto}">
+          Unidade
+         </span>
+        </td>
+        <td th:text="${produto.marcaProduto}">
+         Marca
+        </td>
+        <td>
+         <div class="acoes">
+          <a class="editar" th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}">
+           Editar
+          </a>
+          <a class="excluir" th:href="@{/produtos/excluir/{id}(id=${produto.idProduto})}">
+           Excluir
+          </a>
+         </div>
+        </td>
+       </tr>
+       <tr class="empty-row" th:if="${#lists.isEmpty(produtos)}">
+        <td colspan="6">
+         <strong>
+          Nenhum registro cadastrado
+         </strong>
+         Use o botão de cadastro acima para adicionar o primeiro registro.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Gerenciamento de Produtos
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

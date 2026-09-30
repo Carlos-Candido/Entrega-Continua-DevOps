@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Lista de Alunos
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('aluno')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="cabecalho">
+    <div class="titulo-area">
+     <div class="icone">
+      <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/graduation-cap.svg" th:src="@{/images/icons/graduation-cap.svg}" width="22"/>
+     </div>
+     <div>
+      <h1>
+       Lista de Alunos
+      </h1>
+      <p class="subtitulo">
+       Gerencie os alunos cadastrados no sistema
+      </p>
+     </div>
+    </div>
+    <a class="btn-novo" href="/alunos/criar">
+     + Novo Aluno
+    </a>
+   </div>
+   <div class="tabela-card">
+    <div aria-label="Tabela: role horizontalmente para ver todas as colunas" class="tabela-scroll" role="region" tabindex="0">
+     <table>
+      <thead>
+       <tr>
+        <th scope="col">
+         ID
+        </th>
+        <th scope="col">
+         Nome
+        </th>
+        <th scope="col">
+         Email
+        </th>
+        <th scope="col">
+         Telefone
+        </th>
+        <th scope="col">
+         Endereço
+        </th>
+        <th scope="col">
+         CPF
+        </th>
+        <th scope="col">
+         RA
+        </th>
+        <th scope="col">
+         Curso
+        </th>
+        <th scope="col">
+         Ações
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr th:each="aluno : ${alunos}">
+        <td class="id" th:text="${aluno.idAluno}">
+         *
+        </td>
+        <td class="nome" th:text="${aluno.nomeAluno}">
+         *
+        </td>
+        <td class="email" th:text="${aluno.emailAluno}">
+         *
+        </td>
+        <td th:text="${aluno.telefoneAluno}">
+         *
+        </td>
+        <td th:text="${aluno.enderecoAluno}">
+         *
+        </td>
+        <td th:text="${aluno.cpfAluno}">
+         *
+        </td>
+        <td>
+         <span class="ra" th:text="${aluno.raAluno}">
+          *
+         </span>
+        </td>
+        <td>
+         <span class="curso" th:text="${aluno.curso.nomeCurso}">
+          *
+         </span>
+        </td>
+        <td>
+         <div class="acoes">
+          <a class="editar" th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}">
+           Editar
+          </a>
+          <a class="excluir" th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}">
+           Excluir
+          </a>
+         </div>
+        </td>
+       </tr>
+       <tr class="empty-row" th:if="${#lists.isEmpty(alunos)}">
+        <td colspan="9">
+         <strong>
+          Nenhum registro cadastrado
+         </strong>
+         Use o botão de cadastro acima para adicionar o primeiro registro.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="rodape">
+    FatecADS • Gerenciamento de Alunos
+   </div>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
+</html>

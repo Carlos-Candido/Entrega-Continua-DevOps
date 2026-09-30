@@ -1,66 +1,79 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css?v=cloud-20260518">
-    <title>Cadastro de Disciplinas</title>
-</head>
-<body>
-    <main class="app-shell">
-        <header class="topbar">
-            <a class="brand" href="/">
-                <span class="brand-mark">ADS</span>
-                <span>Sistema Fatec ADS</span>
-            </a>
-            <nav class="nav" aria-label="Navegacao principal">
-                <a href="/alunos/listar">Alunos</a>
-                <a href="/curso/listar">Cursos</a>
-                <a href="/professor/listar">Professores</a>
-                <a href="/disciplina/listar" aria-current="page">Disciplinas</a>
-                <a href="/usuario/listar">Usuarios</a>
-            </nav>
-        </header>
-
-        <section class="page-header">
-            <div>
-                <p class="eyebrow">Modulo academico</p>
-                <h1 class="page-title">Cadastro de disciplina</h1>
-                <p class="page-subtitle">Informe nome, sigla e carga horaria da disciplina.</p>
-            </div>
-        </section>
-
-        <form class="panel form-panel" th:action="@{/disciplina/salvar}" method="post" th:object="${disciplina}">
-            <input type="hidden" th:field="*{idDisciplina}">
-            <div class="form-grid">
-                <div class="field">
-                    <label for="nomeDisciplina">Nome</label>
-                    <input id="nomeDisciplina" type="text" th:field="*{nomeDisciplina}" required>
-                </div>
-                <div class="field">
-                    <label for="siglaDisciplina">Sigla</label>
-                    <input id="siglaDisciplina" type="text" th:field="*{siglaDisciplina}" required>
-                </div>
-                <div class="field">
-                    <label for="cargaHorariaDisciplina">Carga horaria</label>
-                    <input id="cargaHorariaDisciplina" type="number" th:field="*{cargaHorariaDisciplina}" min="1" required>
-                </div>
-                <div class="field">
-                    <label for="professor">Professor</label>
-                    <select id="professor" th:field="*{professor}" required>
-                        <option value="">Selecione um professor</option>
-                        <option th:each="professor : ${professores}"
-                                th:value="${professor.idProfessor}"
-                                th:text="${professor.nomeProfessor}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="button button-primary" type="submit">Salvar</button>
-                <a class="button" href="/disciplina/listar">Voltar</a>
-            </div>
-        </form>
-    </main>
-</body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Cadastro de Disciplinas
+  </title>
+  <link href="/css/app.css" rel="stylesheet" th:href="@{/css/app.css}"/>
+ </head>
+ <body class="app-page">
+  <th:block th:replace="~{fragments/layout :: navigation('disciplina')}">
+  </th:block>
+  <main class="container" id="main-content">
+   <div class="logo">
+    <img alt="" aria-hidden="true" class="icon" height="22" src="/images/icons/book.svg" th:src="@{/images/icons/book.svg}" width="22"/>
+   </div>
+   <h1>
+    Cadastro de Disciplinas
+   </h1>
+   <p class="subtitulo">
+    Cadastre ou atualize os dados da disciplina
+   </p>
+   <form class="data-form" method="post" th:action="@{/disciplinas/salvar}" th:object="${disciplina}">
+    <input th:field="*{idDisciplina}" type="hidden"/>
+    <div class="field">
+     <label for="nomeDisciplina">
+      Nome
+     </label>
+     <input id="nomeDisciplina" placeholder="Digite o nome da disciplina" required="" th:field="*{nomeDisciplina}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="siglaDisciplina">
+      Sigla
+     </label>
+     <input id="siglaDisciplina" placeholder="Ex: POO" required="" th:field="*{siglaDisciplina}" type="text"/>
+    </div>
+    <div class="field">
+     <label for="cargaHorariaDisciplina">
+      Carga Horária
+     </label>
+     <input id="cargaHorariaDisciplina" min="1" placeholder="Ex: 80" required="" th:field="*{cargaHorariaDisciplina}" type="number"/>
+    </div>
+    <div class="field">
+     <label for="curso">
+      Curso
+     </label>
+     <select id="curso" required="" th:field="*{curso}">
+      <option disabled="" value="">
+       Selecione um curso
+      </option>
+      <option th:each="curso : ${cursos}" th:text="${curso.nomeCurso}" th:value="${curso.idCurso}">
+      </option>
+     </select>
+    </div>
+    <div class="field">
+     <label for="professor">
+      Professor
+     </label>
+     <select id="professor" required="" th:field="*{professor}">
+      <option disabled="" value="">
+       Selecione um professor
+      </option>
+      <option th:each="professor : ${professores}" th:text="${professor.nomeProfessor}" th:value="${professor.idProfessor}">
+      </option>
+     </select>
+    </div>
+    <div class="form-actions">
+     <input class="botao" type="submit" value="Salvar Disciplina"/>
+     <a class="voltar" href="/disciplinas/listar">
+      Cancelar
+     </a>
+    </div>
+   </form>
+   <div th:replace="~{fragments/layout :: credit}">
+   </div>
+  </main>
+ </body>
 </html>
