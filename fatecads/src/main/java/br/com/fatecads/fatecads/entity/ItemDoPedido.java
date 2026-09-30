@@ -1,7 +1,7 @@
 package br.com.fatecads.fatecads.entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -12,30 +12,36 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Disciplina {
-    
+@Setter
+@Getter
+public class ItemDoPedido {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idDisciplina;
+    private Integer idItem;
 
-    @Column(nullable = false, length = 40)
-    private String nomeDisciplina;
+    private Integer quantidade;
+    
+    private Double preco;
 
-    @Column(nullable = false, length = 10)  
-    private String siglaDisciplina;
-
-    @Column(nullable = false)
-    private Integer cargaHorariaDisciplina;
+    private Double subtotal;
 
     @ManyToOne
-    @JoinColumn(name = "idCurso_fk")
-    private Curso curso;
+    @JoinColumn(name = "idPedido_fk")
+    private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "idProfessor_fk")
-    private Professor professor;
+    @JoinColumn(name = "idProduto_fk")
+    private Produto produto;
+
+    // Método para calcular o subtotal
+    public Double calcularSubtotal() {
+        return quantidade * preco;
+    }
+
+    public void atualizarSubtotal(){
+        this.subtotal = calcularSubtotal();
+    }
 }

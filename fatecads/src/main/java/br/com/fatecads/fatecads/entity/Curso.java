@@ -1,37 +1,32 @@
 package br.com.fatecads.fatecads.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Curso {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idCurso;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 100)
     private String nomeCurso;
 
-    @Column(nullable = false, length = 40)
-    private String periodo;
+    @Column(nullable = false, length = 50)
+    private String periodoCurso;
 
-    @Column(nullable = false)
-    private Integer cargaHoraria;
-
-    @ManyToOne
-    @JoinColumn(name = "idDisciplina_fk")
-    private Disciplina disciplina;
+    @Column(nullable = false, length = 50)
+    private Integer cargaHorariaCurso;
 }
