@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.fatecads.fatecads.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+
     Optional<Usuario> findByLoginUsuario(String loginUsuario);
 
-    Optional<Usuario> findFirstByEmailUsuarioIgnoreCaseOrderByIdUsuarioAsc(String emailUsuario);
+    Optional<Usuario> findByEmailUsuario(String emailUsuario);
 }
