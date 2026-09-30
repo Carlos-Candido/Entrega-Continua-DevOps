@@ -1,4 +1,4 @@
-package br.com.fatecads.fatecads.Security;
+package br.com.fatecads.fatecads.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package br.com.fatecads.fatecads.Security;
+package br.com.fatecads.fatecads.security;
 
 import java.util.Collection;
 import java.util.List;
