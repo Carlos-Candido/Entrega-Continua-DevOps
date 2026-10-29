@@ -2,6 +2,27 @@
 
 Aplicação Spring Boot com Thymeleaf e PostgreSQL. Para iniciar, basta Docker com Compose v2 e acesso à internet na primeira construção. Java e Maven são usados apenas dentro do build Docker; não precisam estar instalados na máquina.
 
+## Requisitos
+
+- Docker instalado e em execução, com permissão para executar containers.
+- Docker Compose v2 com suporte a `--wait`.
+- Internet na primeira construção para baixar imagens e dependências.
+- Git, caso vá clonar o repositório; OpenSSL é opcional para gerar a senha local.
+
+Confira as ferramentas:
+
+```bash
+docker --version
+docker compose version
+```
+
+Para baixar o projeto:
+
+```bash
+git clone https://github.com/Carlos-Candido/Entrega-Continua-DevOps.git
+cd Entrega-Continua-DevOps
+```
+
 ## Iniciar
 
 Execute os comandos dentro de `fatecads/`:
@@ -10,14 +31,17 @@ Execute os comandos dentro de `fatecads/`:
 cd fatecads
 ```
 
-Na primeira execução, crie `.env` a partir de `.env.example` e preencha `DB_PASSWORD` com uma senha local. Alternativamente, com OpenSSL instalado, gere o arquivo com uma senha aleatória:
+Na primeira execução, copie `.env.example` para `.env` e preencha `DB_PASSWORD` com uma senha local. Não sobrescreva um `.env` existente: ele contém a configuração usada pelo banco.
+
+Como alternativa, em Linux/macOS ou Git Bash com OpenSSL instalado, este comando cria o arquivo somente se ele ainda não existir:
 
 ```bash
-# Somente na primeira execução: não sobrescreva um .env existente.
-(umask 077; printf 'DB_PASSWORD=%s\nSERVER_PORT=8081\n' "$(openssl rand -hex 24)" > .env)
+if [ ! -f .env ]; then
+  (umask 077; printf 'DB_PASSWORD=%s\nSERVER_PORT=8081\n' "$(openssl rand -hex 24)" > .env)
+fi
 ```
 
-O `.env` não é versionado nem enviado no contexto de build da imagem. O Compose lê esse arquivo para configurar os containers. Neste ambiente ele já foi criado: preserve-o para continuar acessando o banco existente.
+O `.env` não é versionado nem enviado no contexto de build da imagem. O Compose lê esse arquivo para configurar os containers. Guarde-o para continuar acessando o banco existente.
 
 Para construir a imagem e iniciar aplicação e banco:
 
@@ -36,6 +60,32 @@ docker compose up -d --wait
 Depois de alterar código ou dependências, use novamente `docker compose up -d --build --wait`.
 
 Abra <http://localhost:8081/>. Use **Criar uma Conta** para cadastrar o primeiro acesso. O fluxo existente permite selecionar Administrador (área acadêmica) ou Cliente (loja); o login direciona para a área correspondente. Não há conta nem senha de acesso predefinidas.
+
+## Login e perfis
+
+O formulário de login é o mesmo para todos os perfis. Entre com o **login escolhido no cadastro**, não com o email.
+
+| Perfil escolhido no cadastro | Destino após login | Área disponível |
+| --- | --- | --- |
+| Administrador | `/home` | Gestão de alunos, cursos, professores, disciplinas, usuários, produtos e pedidos |
+| Cliente (loja) | `/loja` | Vitrine, catálogo de produtos, carrinho e finalização de compra |
+
+Cliente não pode acessar as rotas administrativas. Administrador não acessa a loja com a mesma conta: crie uma conta Cliente separada para experimentar os dois fluxos. Para trocar de conta, use **Sair** e faça login novamente.
+
+## Como usar a loja / marketplace
+
+O banco novo não recebe produtos de demonstração automaticamente. Para preencher a vitrine:
+
+1. Crie uma conta com perfil **Administrador** e faça login.
+2. Abra **Produtos** → formulário de novo produto, ou acesse `/produtos/criar`.
+3. Informe descrição, valor, unidade e marca. A imagem é opcional.
+4. Salve o produto e saia da conta administrativa.
+5. Cadastre uma segunda conta com perfil **Cliente (loja)** e faça login.
+6. No catálogo, pesquise ou filtre por marca, abra um produto e adicione ao carrinho.
+7. No carrinho, altere quantidades ou remova itens; finalize para registrar o pedido e ver a confirmação.
+
+Cada pedido finalizado fica vinculado ao cliente autenticado. O carrinho fica na sessão do navegador, não é um carrinho persistente entre sessões. A compra é simulada: não há cobrança nem integração com meios de pagamento.
+
 
 ## Configuração
 
@@ -71,6 +121,22 @@ docker compose down
 
 Não use `docker compose down -v` para uma parada normal: a opção `-v` apaga o volume do banco.
 
+## Executar a aplicação sem Docker
+
+Alternativa para desenvolvimento: exige Java 17 ou superior no host. O PostgreSQL pode continuar no Docker. Use o mesmo `.env` e execute dentro de `fatecads/`:
+
+```bash
+# Libera a porta HTTP ocupada pela aplicação no container
+docker compose stop app
+docker compose up -d --wait db
+./mvnw spring-boot:run
+```
+
+No Windows, use `.\mvnw.cmd spring-boot:run`. O wrapper baixa o Maven automaticamente. Abra a porta definida em `SERVER_PORT`; o padrão continua sendo `8081`. Use `Ctrl+C` para encerrar a execução Java.
+
+Para voltar ao modo totalmente Docker, encerre primeiro o Java e execute `docker compose up -d --wait`.
+
+
 ## Testes de desenvolvimento
 
 O build da imagem compila e empacota com `-DskipTests`: não executa os testes, pois eles dependem de um banco em execução. Para rodar a suíte existente, é necessário Java 17 ou superior no host:
@@ -81,6 +147,25 @@ docker compose up -d --wait db
 ```
 
 Os testes usam a conexão local configurada pelo `.env` e podem atualizar o esquema; execute apenas contra um banco de desenvolvimento, nunca produção. Para execução Java fora do Docker, `DB_URL` pode substituir a URL JDBC; o Compose define sua própria URL para o banco interno.
+
+## Problemas comuns
+
+| Sintoma | O que conferir |
+| --- | --- |
+| `Defina DB_PASSWORD no arquivo .env` | Crie `fatecads/.env` e preencha `DB_PASSWORD`; `.env.example` sozinho não é carregado. |
+| Porta já em uso | Altere `SERVER_PORT` ou `DB_PORT` no `.env` e execute `docker compose up -d --wait`. Se trocar `SERVER_PORT`, use essa porta no navegador. |
+| Falha ao conectar ao Docker | Inicie o Docker e confira as permissões do seu usuário. |
+| Erro de autenticação no PostgreSQL após mudar a senha | Restaure a configuração original ou altere a senha também no PostgreSQL. O volume mantém as credenciais anteriores. |
+| Loja sem produtos | Cadastre produtos com uma conta Administrador; não há carga automática de catálogo. |
+| Acesso negado ao abrir loja ou administração | Confira o perfil da conta; cada área exige o perfil correspondente. |
+
+Se o início falhar, consulte o estado e os logs:
+
+```bash
+docker compose ps
+docker compose logs --tail=100 app db
+```
+
 
 ## Limites do ambiente local
 
