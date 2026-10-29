@@ -33,3 +33,7 @@ build/
 .vscode/
 
 /whatsapp-service/node_modules/
+
+# Configuração local e sessão do WhatsApp
+.env
+/whatsapp-service/auth/
